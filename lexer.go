@@ -79,19 +79,19 @@ func (l *Lexer) Lex() (Token) {
 		case '+':
 			return Token{pos: l.pos, typ: 4, literal: "+"}
 		case '-':
-			//b
+			return Token{pos: l.pos, typ: 5, literal: "-"}
 		case '*':
-			//c
+			return Token{pos: l.pos, typ: 6, literal: "*"}
 		case '/':
-			//d
+			return Token{pos: l.pos, typ: 7, literal: "/"}
 		case '%':
-			//e
+			return Token{pos: l.pos, typ: 8, literal: "%"}
 		case '=':
-			//f
+			return Token{pos: l.pos, typ: 9, literal: "="}
 		case '.':
-			//g
+			return Token{pos: l.pos, typ: 10, literal: "."}
 		case ';':
-			//h
+			return Token{pos: l.pos, typ: 11, literal: ";"}
 		default:
 			// logic for identifiers and numbers
 
