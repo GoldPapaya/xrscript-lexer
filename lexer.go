@@ -1,13 +1,14 @@
 package main // temp
 
 import (
-
+	"bufio"
+	"io"
 )
 
-type TokenType int
+type Token int
 
 const (
-	EOF TokenType = iota // End of file (EOF) token, start value 0
+	EOF Token = iota 	 // End of file (EOF) token, start value 0
 	IDENTIFIER 	         // variable ids, value 1 etc.
 	NUMBER			     // floats and ints
 	ADD				     // +
@@ -20,7 +21,7 @@ const (
 	SEMICOLON		     // ;
 )
 
-var tokens = []string{
+var tokenLiterals = []string{
 	EOF: "EOF",
 	IDENTIFIER: "IDENTIFIER",
 	NUMBER: "NUMBER",
@@ -35,6 +36,50 @@ var tokens = []string{
 }
 
 // Print token method
-func (t TokenType) String() string {
-	return tokens[t]
+func (t Token) String() string {
+	return tokenLiterals[t]
+}
+
+type Position struct {
+	row int
+	col int
+}
+
+type Lexer struct {
+	pos Position
+	reader bufio.Reader
+}
+
+func NewLexer(reader io.Reader) *Lexer {
+	return &Lexer{
+		pos: Position{row: 1, col: 0},
+		reader: *bufio.NewReader(reader),
+	}
+}
+
+func (l *Lexer) Lex() (Position, Token, string) {
+	for {
+		r, _, err := l.reader.ReadRune()
+		if err != nil {
+			if err == io.EOF {
+				return l.pos, EOF, ""
+			}
+			panic(err)
+		}
+		// state machine
+		switch r {
+		case '\n': // Special case where we need to reset to next line
+			//x
+		case '+':
+			//y
+		default:
+			// logic for identifiers and numbers
+
+		}
+
+	}
+}
+
+func main() {
+
 }
