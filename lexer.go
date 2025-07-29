@@ -5,10 +5,10 @@ import (
 	"io"
 )
 
-type Token int
+type TokenType int
 
 const (
-	EOF Token = iota 	 // End of file (EOF) token, start value 0
+	EOF TokenType = iota 	 // End of file (EOF) token, start value 0
 	IDENTIFIER 	         // variable ids, value 1 etc.
 	NUMBER			     // floats and ints
 	ADD				     // +
@@ -35,14 +35,20 @@ var tokenLiterals = []string{
 	SEMICOLON: "SEMICOLON",
 }
 
-// Print token method
-func (t Token) String() string {
+// Print token method, mostly for testing
+func (t TokenType) String() string {
 	return tokenLiterals[t]
 }
 
 type Position struct {
 	row int
 	col int
+}
+
+type Token struct {
+	pos Position
+	typ TokenType
+	literal string
 }
 
 type Lexer struct {
@@ -57,21 +63,35 @@ func NewLexer(reader io.Reader) *Lexer {
 	}
 }
 
-func (l *Lexer) Lex() (Position, Token, string) {
+func (l *Lexer) Lex() (Token) {
 	for {
-		r, _, err := l.reader.ReadRune()
+		r, _, err := l.reader.ReadRune() // .ReadRune() returns Rune, size, err - we only care about the first and last
 		if err != nil {
 			if err == io.EOF {
-				return l.pos, EOF, ""
+				return Token{pos: l.pos, typ: 0, literal: ""}
 			}
 			panic(err)
 		}
-		// state machine
+		// State machine
 		switch r {
 		case '\n': // Special case where we need to reset to next line
-			//x
+			// Some kinda reset function probably
 		case '+':
-			//y
+			return Token{pos: l.pos, typ: 4, literal: "+"}
+		case '-':
+			//b
+		case '*':
+			//c
+		case '/':
+			//d
+		case '%':
+			//e
+		case '=':
+			//f
+		case '.':
+			//g
+		case ';':
+			//h
 		default:
 			// logic for identifiers and numbers
 
