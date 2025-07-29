@@ -63,6 +63,11 @@ func NewLexer(reader io.Reader) *Lexer {
 	}
 }
 
+func (l *Lexer) newline() {
+	l.pos.row += 1
+	l.pos.col = 0
+}
+
 func (l *Lexer) Lex() (Token) {
 	for {
 		r, _, err := l.reader.ReadRune() // .ReadRune() returns Rune, size, err - we only care about the first and last
@@ -75,7 +80,7 @@ func (l *Lexer) Lex() (Token) {
 		// State machine
 		switch r {
 		case '\n': // Special case where we need to reset to next line
-			// Some kinda reset function probably
+			l.newline()
 		case '+':
 			return Token{pos: l.pos, typ: 4, literal: "+"}
 		case '-':
