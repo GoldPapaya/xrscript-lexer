@@ -2,6 +2,7 @@ package main // temp
 
 import (
 	"bufio"
+	"fmt"
 	"io"
 )
 
@@ -106,5 +107,5 @@ func (l *Lexer) Lex() (Token) {
 }
 
 func main() {
-
+	fmt.Println(EOF)
 }
