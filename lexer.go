@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"io"
+	"unicode"
 )
 
 type TokenType int
@@ -100,6 +101,14 @@ func (l *Lexer) Lex() (Token) {
 			return Token{pos: l.pos, typ: 11, literal: ";"}
 		default:
 			// logic for identifiers and numbers
+			if unicode.IsDigit(r) {
+				for unicode.IsDigit(r) { // stop if . is found or the number ends
+
+				}
+			} else { // *Currently just a catch-all for non-numbers. Will need to change later if adding strings & more
+
+			}
+
 
 		}
 
