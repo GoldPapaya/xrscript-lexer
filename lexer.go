@@ -106,7 +106,9 @@ func (l *Lexer) Lex() (Token) {
 
 				}
 			} else { // *Currently just a catch-all for non-numbers. Will need to change later if adding strings & more
+				for unicode.IsLetter(r) {
 
+				}
 			}
 
 
