@@ -106,7 +106,7 @@ func (l *Lexer) Lex() (Token) {
 				if err != nil {
 					panic(err)
 				}
-				return Token{pos: (l.pos-len(numberLiteral)), typ: 2, literal: numberLiteral}
+				return Token{pos: Position{l.pos.row, l.pos.col-len(numberLiteral)}, typ: 2, literal: numberLiteral}
 			} else { // *Currently just a catch-all for non-numbers. Will need to change later if adding strings & more
 				for unicode.IsLetter(r) {
 
