@@ -84,27 +84,29 @@ func (l *Lexer) Lex() (Token) {
 		case '\n': // Special case where we need to reset to next line
 			l.newline()
 		case '+':
-			return Token{pos: l.pos, typ: 4, literal: "+"}
-		case '-':
-			return Token{pos: l.pos, typ: 5, literal: "-"}
+			return Token{pos: l.pos, typ: 3, literal: "+"}
+		case '-': // TODO This one is way more annoying than it looks since the grammar handles negative numbers. implement lookahead or smth
+			return Token{pos: l.pos, typ: 4, literal: "-"}
 		case '*':
-			return Token{pos: l.pos, typ: 6, literal: "*"}
+			return Token{pos: l.pos, typ: 5, literal: "*"}
 		case '/':
-			return Token{pos: l.pos, typ: 7, literal: "/"}
+			return Token{pos: l.pos, typ: 6, literal: "/"}
 		case '%':
-			return Token{pos: l.pos, typ: 8, literal: "%"}
+			return Token{pos: l.pos, typ: 7, literal: "%"}
 		case '=':
-			return Token{pos: l.pos, typ: 9, literal: "="}
+			return Token{pos: l.pos, typ: 8, literal: "="}
 		case '.':
-			return Token{pos: l.pos, typ: 10, literal: "."}
+			return Token{pos: l.pos, typ: 9, literal: "."}
 		case ';':
-			return Token{pos: l.pos, typ: 11, literal: ";"}
+			return Token{pos: l.pos, typ: 10, literal: ";"}
 		default:
 			// logic for identifiers and numbers
 			if unicode.IsDigit(r) {
-				for unicode.IsDigit(r) { // stop if . is found or the number ends
-
+				numberLiteral, err := l.readNumber(r)
+				if err != nil {
+					panic(err)
 				}
+				return Token{pos: (l.pos-len(numberLiteral)), typ: 2, literal: numberLiteral}
 			} else { // *Currently just a catch-all for non-numbers. Will need to change later if adding strings & more
 				for unicode.IsLetter(r) {
 
