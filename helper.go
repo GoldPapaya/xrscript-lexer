@@ -2,6 +2,7 @@ package main
 
 import (
 	"io"
+	"unicode"
 )
 
 func (l *Lexer) readNumber(firstRune rune) (string, error) {
@@ -24,7 +25,14 @@ func (l *Lexer) readNumber(firstRune rune) (string, error) {
 			numRunes = append(numRunes, r)
 			continue
 		}
-		// some fxn that checks whether the rune is a number. this will handle invalid input like two decimals in one number.
-		// at the end reminder to do the base case append num to numRUnes
+		if !unicode.IsDigit(r) {
+			err = l.reader.UnreadRune()
+			if err != nil {
+				return "", err
+			}
+			l.pos.col -= 1
+			return string(numRunes), nil
+		}
+		numRunes = append(numRunes, r)
 	}
 }
