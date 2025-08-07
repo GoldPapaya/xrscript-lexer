@@ -6,7 +6,7 @@ import (
 	"unicode"
 )
 
-func (l *Lexer) Lex() (Token) {
+func (l *Lexer) Lex() Token {
 	for {
 		r, _, err := l.reader.ReadRune() // .ReadRune() returns Rune, size, err - we only care about the first and last
 		if err != nil {
@@ -42,17 +42,16 @@ func (l *Lexer) Lex() (Token) {
 				if err != nil {
 					panic(err)
 				}
-				return Token{pos: Position{l.pos.row, l.pos.col-len(numberLiteral)}, typ: 2, literal: numberLiteral}
+				return Token{pos: Position{l.pos.row, l.pos.col - len(numberLiteral)}, typ: 2, literal: numberLiteral}
 			} else { // *Currently just a catch-all for non-numbers. Will need to change later if adding strings & more
-				for unicode.IsLetter(r) {
+				if unicode.IsLetter(r) {
 
 				}
 			}
-
-
 		}
 
 	}
+
 }
 
 func main() {
